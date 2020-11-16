@@ -2,21 +2,27 @@ import React, {useState, useEffect} from 'react';
 import './style.css';
 
 const Rate = ({from}) => {
-    const [amount, setAmount] = useState(null);
+        const [amount, setAmount] = useState(null);
 
-    useEffect(() => {
-        fetch(`https://api.frankfurter.app/latest?from=${from}&to=CZK`)
-            .then(resp => resp.json())
-            .then(json => setAmount(json.rates.CZK.toLocaleString('cs-CZ')));
-    }, [from]);
+        useEffect(() => {
+                const doFetch = async () => {
+                    const resp = await fetch(`https://api.frankfurter.app/latest?from=${from}&to=CZK`);
+                    const json = await resp.json();
+                    setAmount(json.rates.CZK.toLocaleString('cs-CZ'));
+                }
 
-    return (
-        <div className="rate">
-            <div className="rate__currency">1 USD</div>
-            <div>=</div>
-            <div className="rate__value">{amount} {from}</div>
-        </div>
-    );
-};
+                doFetch();
+            }, [from]
+        );
+
+        return (
+            <div className="rate">
+                <div className="rate__currency">1 USD</div>
+                <div>=</div>
+                <div className="rate__value">{amount} {from}</div>
+            </div>
+        );
+    }
+;
 
 export default Rate;
