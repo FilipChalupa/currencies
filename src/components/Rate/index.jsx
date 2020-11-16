@@ -5,13 +5,11 @@ const Rate = ({from}) => {
         const [amount, setAmount] = useState(null);
 
         useEffect(() => {
-                const doFetch = async () => {
-                    const resp = await fetch(`https://api.frankfurter.app/latest?from=${from}&to=CZK`);
-                    const json = await resp.json();
-                    setAmount(json.rates.CZK.toLocaleString('cs-CZ'));
-                }
-
-                doFetch();
+            (async () => {
+                const resp = await fetch(`https://api.frankfurter.app/latest?from=${from}&to=CZK`);
+                const json = await resp.json();
+                setAmount(json.rates.CZK.toLocaleString('cs-CZ'));
+            })()
             }, [from]
         );
 
